@@ -28,4 +28,11 @@ body {
 
 .container-fluid {
   height: 100%;
+  width: 100%;
+}
+
+.row {
+  margin-right: -15px;
+  margin-left: -15px;
+  height: 100%;
 }

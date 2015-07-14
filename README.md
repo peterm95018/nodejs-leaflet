@@ -1,9 +1,9 @@
 # nodejs-leaflet
-A simple ExpressJS app that includes a Leaflet example. This is a modified lesson from a Udemy class I was taking.
+A simple ExpressJS app that includes a Leaflet example. This is a modified lesson from a Udemy class I was taking. It uses the jade templating language and pulls in Bootstrap and Mapbox libraries.
 
-Added the mapbox library and tokens for a version of my styled mobile map. Displays the standard map using OSM data that is themed for UC Santa Cruz.
+The mapbox library and token is for a version of my styled mobile map. Displays the standard map using OSM data that is themed for UC Santa Cruz. More about the Mapbox theming is found at http://petermcmillan.com/
 
-The real secret to getting 100% height and width via Bootstrap 3 was to restructure the divs and classes a little and add some specific overwrites to handle default padding and margins found in Bootstrap 3.
+The real secret to getting 100% height and width via Bootstrap 3 was to restructure the divs and classes a little and add some specific CSS overwrites to handle default padding and margins found in Bootstrap 3.
 
 <img src="expressjs-leaflet.png" alt="ExpressJS Leaflet screen shot">
 

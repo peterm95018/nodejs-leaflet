@@ -5,6 +5,9 @@ Added the mapbox library and tokens for a version of my styled mobile map. Displ
 
 The real secret to getting 100% height and width via Bootstrap 3 was to restructure the divs and classes a little and add some specific overwrites to handle default padding and margins found in Bootstrap 3.
 
+<img src="expressjs-leaflet.png" alt="ExpressJS Leaflet screen shot">
+
+
 ```
 <div class="container-fluid">
 	<h1>ExpressJS Leaflet</h1>
@@ -44,4 +47,4 @@ body {
 
 
 
-<img src="expressjs-leaflet.png" alt="ExpressJS Leaflet screen shot">
+

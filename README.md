@@ -14,6 +14,34 @@ The real secret to getting 100% height and width via Bootstrap 3 was to restruct
 </div>
 ```
 
+The CSS secret is found in stackoverflow and Leaflet Tips book.
+
+```
+html, body, #map
+{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+  padding-top: 50px;
+}
+
+.container-fluid {
+  height: 100%;
+  width: 100%;
+}
+
+.row {
+  margin-right: -15px;
+  margin-left: -15px;
+  height: 100%;
+}
+```
+
+
+
 
 
 <img src="expressjs-leaflet.png" alt="ExpressJS Leaflet screen shot">

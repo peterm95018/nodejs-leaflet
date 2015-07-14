@@ -1,12 +1,19 @@
-var map = L.map('map').setView([37.0020, -122.0600], 15);
 
-		L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-			maxZoom: 18,
-			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-			id: 'examples.map-i875mjb7'
-		}).addTo(map);
+// Provide your access token
+L.mapbox.accessToken = 'pk.eyJ1IjoicGV0ZXJtOTUwMTgiLCJhIjoiTWpFVTFVNCJ9.02rGGMIWgLdCfbVinaSZeQ';
+// Create a map in the div #map
+L.mapbox.map('map', 'peterm95018.kfmd8j0i');
+
+
+//var map = L.map('map').setView([37.0020, -122.0600], 15);
+
+		// L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+		// 	maxZoom: 18,
+		// 	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+		// 		'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+		// 		'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+		// 	id: 'examples.map-i875mjb7'
+		// }).addTo(map);
 
 
 		// L.marker([51.5, -0.09]).addTo(map)

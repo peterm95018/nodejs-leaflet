@@ -21,22 +21,22 @@ router.get('/login', function(req, res, next) {
   });
 });
 
-passport.use(new LdapStrategy({
-    server: {
-        url: 'ldap://ldap-99.soe.ucsc.edu',
-        bindDN: 'cn=root',
-        bindCredentials: 'secret',
-        searchBase: 'ou=People,dc=ucsc,dc=edu',
-        searchFilter: '(uid={{username}})'
-    }
-}));
+// passport.use(new LdapStrategy({
+//     server: {
+//         url: 'ldap://ldap-99.soe.ucsc.edu',
+//         bindDN: 'cn=root',
+//         bindCredentials: 'secret',
+//         searchBase: 'ou=People,dc=ucsc,dc=edu',
+//         searchFilter: '(uid={{username}})'
+//     }
+// }));
 
-router.post('/login', passport.authenticate('ldapauth', {
-    failureRedirect: '/users/login', 
-    failureFlash: 'invalid username or password'}), function(req, res) {
-        console.log('Authentication Successful');
-        req.flash('success', 'You are logged in');
-        res.redirect('/');
-});
+// router.post('/login', passport.authenticate('ldapauth', {
+//     failureRedirect: '/users/login', 
+//     failureFlash: 'invalid username or password'}), function(req, res) {
+//         console.log('Authentication Successful');
+//         req.flash('success', 'You are logged in');
+//         res.redirect('/');
+// });
 
 module.exports = router;

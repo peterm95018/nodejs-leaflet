@@ -9,6 +9,8 @@ var session = require('express-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
+var LdapStrategy = require('passport-ldapauth');
+
 var bodyParser = require('body-parser');
 var multer = require('multer');
 var flash = require('connect-flash');

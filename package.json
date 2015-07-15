@@ -15,6 +15,7 @@
     "express-session": "*",
     "express-validator": "*",
     "jade": "~1.9.2",
+    "ldapjs": "mcavage/node-ldapjs",
     "leaflet": "*",
     "mongodb": "*",
     "mongoose": "*",
@@ -22,7 +23,6 @@
     "multer": "*",
     "passport": "*",
     "passport-http": "*",
-    "ldapjs": "mcavage/node-ldapjs",
     "passport-ldapauth": "^0.3.0",
     "passport-local": "*",
     "serve-favicon": "~2.2.0"

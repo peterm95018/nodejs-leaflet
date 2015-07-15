@@ -1,6 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var LdapStrategy = require('passport-ldapauth');
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
@@ -20,6 +24,27 @@ router.get('/login', function(req, res, next) {
   	'title': 'Login'
   });
 });
+
+var OPTS = {
+	server: {
+		url: '',
+		bindDn: '',
+		bindCredentials: '',
+		searchBase: '',
+		searchFilter: '(uid={{username}})'
+	}
+};
+
+//passport.use(new LdapStrategy(OPTS));
+passport.use(new LdapStrategy(OPTS));
+
+// router.post('/login', passport.authenticate('ldapauth', {session: false}), 
+// 	function(req, res) {
+// 		console.log('Authentication Successful');
+// 		req.flash('success', 'You are logged in');
+// 		res.redirect('/');
+
+// 	});
 
 // passport.use(new LdapStrategy({
 //     server: {

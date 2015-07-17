@@ -8,6 +8,11 @@ var app = require('../app');
 var debug = require('debug')('express-leaflet:server');
 var http = require('http');
 
+/* psm added these two */
+var fs = require('fs');
+var https = require('https');
+
+
 /**
  * Get port from environment and store in Express.
  */
@@ -19,7 +24,19 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+/* psm mods */
+var psmKey = fs.readFileSync('certs/peterm-key.pem');
+var psmCert = fs.readFileSync('certs/ca.crt');
+
+var options = {
+  key: psmKey,
+  cert: psmCert
+}
+
+
+//var server = http.createServer(app);
+/* psm mod */
+var server = https.createServer(options, app);
 
 /**
  * Listen on provided port, on all network interfaces.

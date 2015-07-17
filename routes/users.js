@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+// var LocalStrategy = require('passport-local').Strategy;
 var LdapStrategy = require('passport-ldapauth');
 
 /* GET users listing. */
@@ -27,18 +27,24 @@ router.get('/login', function(req, res, next) {
 
 var OPTS = {
 	server: {
-		url: '',
-		bindDn: '',
-		bindCredentials: '',
-		searchBase: '',
+		url: 'ldaps://ldap-99.soe.ucsc.edu',
+		bindDn: 'cn=root',
+		bindCredentials: '{{password}}',
+		searchBase: 'ou=People,dc=crm,dc=ucsc,dc=edu',
 		searchFilter: '(uid={{username}})'
 	}
+
 };
+
 
 //passport.use(new LdapStrategy(OPTS));
 passport.use(new LdapStrategy(OPTS));
 
-// router.post('/login', passport.authenticate('ldapauth', {session: false}), 
+
+
+
+// router.post('/login', passport.authenticate('ldapauth',
+// 	{session: false}), 
 // 	function(req, res) {
 // 		console.log('Authentication Successful');
 // 		req.flash('success', 'You are logged in');
@@ -46,22 +52,15 @@ passport.use(new LdapStrategy(OPTS));
 
 // 	});
 
-// passport.use(new LdapStrategy({
-//     server: {
-//         url: 'ldap://ldap-99.soe.ucsc.edu',
-//         bindDN: 'cn=root',
-//         bindCredentials: 'secret',
-//         searchBase: 'ou=People,dc=ucsc,dc=edu',
-//         searchFilter: '(uid={{username}})'
-//     }
-// }));
 
-// router.post('/login', passport.authenticate('ldapauth', {
-//     failureRedirect: '/users/login', 
-//     failureFlash: 'invalid username or password'}), function(req, res) {
-//         console.log('Authentication Successful');
-//         req.flash('success', 'You are logged in');
-//         res.redirect('/');
-// });
+
+router.post('/login', passport.authenticate('ldapauth', {
+    failureRedirect: '/users/login', 
+    failureFlash: 'invalid username or password'}), 
+	function(req, res) {
+        console.log('Authentication Successful');
+        req.flash('success', 'You are logged in');
+        res.redirect('/');
+});
 
 module.exports = router;

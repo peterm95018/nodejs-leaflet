@@ -28,18 +28,31 @@ router.get('/login', function(req, res, next) {
 var OPTS = {
 	server: {
 		url: 'ldaps://ldap-99.soe.ucsc.edu',
-		bindDn: 'cn=root',
+		bindDn: 'ou=People,dc=crm,dc=ucsc,dc=edu',
 		bindCredentials: '{{password}}',
 		searchBase: 'ou=People,dc=crm,dc=ucsc,dc=edu',
 		searchFilter: '(uid={{username}})'
 	}
-
 };
 
 
 //passport.use(new LdapStrategy(OPTS));
 passport.use(new LdapStrategy(OPTS));
 
+
+// from http://code.runnable.com/VOd1LNZyrqxYnQES/nodejs-passport-ldapauth-express-test-for-node-js-and-hello-world
+router.post('/login', function(req, res, next) {
+  passport.authenticate('ldapauth', {session: false}, function(err, user, info) {
+    if (err) {
+      return next(err); // will generate a 500 error
+    }
+    // Generate a JSON response reflecting authentication status
+    if (! user) {
+      return res.send({ success : false, message : 'authentication failed' });
+    }
+    return res.send({ success : true, message : 'authentication succeeded' });
+  })(req, res, next);
+});
 
 
 
@@ -54,13 +67,13 @@ passport.use(new LdapStrategy(OPTS));
 
 
 
-router.post('/login', passport.authenticate('ldapauth', {
-    failureRedirect: '/users/login', 
-    failureFlash: 'invalid username or password'}), 
-	function(req, res) {
-        console.log('Authentication Successful');
-        req.flash('success', 'You are logged in');
-        res.redirect('/');
-});
+// router.post('/login', passport.authenticate('ldapauth', {
+//     failureRedirect: '/users/login', 
+//     failureFlash: 'invalid username or password'}),
+// 	function(req, res) {
+//         console.log('Authentication Successful');
+//         req.flash('success', 'You are logged in');
+//         res.redirect('/');
+// });
 
 module.exports = router;

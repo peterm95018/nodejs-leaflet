@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var fs = require('fs');
+
 var passport = require('passport');
 // var LocalStrategy = require('passport-local').Strategy;
 var LdapStrategy = require('passport-ldapauth');
@@ -31,7 +33,12 @@ var OPTS = {
 		bindDn: 'ou=People,dc=crm,dc=ucsc,dc=edu',
 		bindCredentials: '{{password}}',
 		searchBase: 'ou=People,dc=crm,dc=ucsc,dc=edu',
-		searchFilter: '(uid={{username}})'
+		searchFilter: '(uid={{username}})',
+    tlsOptions: {
+      ca: [
+        fs.readFileSync('/private/etc/openldap/cacerts/server.crt')
+      ]
+    }
 	}
 };
 

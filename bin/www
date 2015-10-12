@@ -28,6 +28,9 @@ app.set('port', port);
 var psmKey = fs.readFileSync('certs/peterm-key.pem');
 var psmCert = fs.readFileSync('certs/ca.crt');
 
+// var psmKey = fs.readFileSync('/private/etc/openldap/cacerts/server.key');
+// var psmCert = fs.readFileSync('/private/etc/openldap/cacerts/peterm.ucsc.edu.crt');
+
 var options = {
   key: psmKey,
   cert: psmCert

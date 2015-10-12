@@ -5,7 +5,12 @@ var fs = require('fs');
 
 var passport = require('passport');
 // var LocalStrategy = require('passport-local').Strategy;
-var LdapStrategy = require('passport-ldapauth');
+//var LdapStrategy = require('passport-ldapauth');
+
+// try using ldapauth-fork instructions
+var connect = require('connect');
+var LdapAuth = require('ldapauth-fork');
+
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -27,39 +32,66 @@ router.get('/login', function(req, res, next) {
   });
 });
 
-var OPTS = {
-	server: {
-		url: 'ldaps://ldap-99.soe.ucsc.edu',
-		bindDn: 'ou=People,dc=crm,dc=ucsc,dc=edu',
-		bindCredentials: '{{password}}',
-		searchBase: 'ou=People,dc=crm,dc=ucsc,dc=edu',
-		searchFilter: '(uid={{username}})',
-    tlsOptions: {
-      ca: [
-        fs.readFileSync('/private/etc/openldap/cacerts/server.crt')
-      ]
-    }
-	}
+// Config from a .json or .ini file or whatever.
+var config = {
+  ldap: {
+    url: "ldaps://ldap-99.soe.ucsc.edu:636",
+    bindDn: 'ou=People,dc=crm,dc=ucsc,dc=edu',
+    bindCredentials: "password",
+    searchBase: "ou=users,o=example.com",
+    searchFilter: "(uid={{username}})"
+  }
 };
+
+var ldap = new LdapAuth({
+  url: config.ldap.url,
+  bindDn: config.ldap.bindDn,
+  bindCredentials: config.ldap.bindCredentials,
+  searchBase: config.ldap.searchBase,
+  searchFilter: config.ldap.searchFilter,
+  //log4js: require('log4js'),
+  cache: true
+});
+
+var basicAuthMiddleware = connect.basicAuth(function (username, password, callback) {
+  ldap.authenticate(username, password, function (err, user) {
+    if (err) {
+      console.log("LDAP auth error: %s", err);
+    }
+    callback(err, user)
+  });
+});
+
+
+// var OPTS = {
+// 	server: {
+// 		url: 'ldap://ldap-99.soe.ucsc.edu',
+// 		bindDn: 'ou=People,dc=crm,dc=ucsc,dc=edu',
+// 		bindCredentials: '{{password}}',
+// 		searchBase: 'ou=People,dc=crm,dc=ucsc,dc=edu',
+// 		searchFilter: '(uid={{username}})'
+// 	}
+// };
+
 
 
 //passport.use(new LdapStrategy(OPTS));
-passport.use(new LdapStrategy(OPTS));
+//passport.use(new LdapStrategy(OPTS));
 
 
 // from http://code.runnable.com/VOd1LNZyrqxYnQES/nodejs-passport-ldapauth-express-test-for-node-js-and-hello-world
-router.post('/login', function(req, res, next) {
-  passport.authenticate('ldapauth', {session: false}, function(err, user, info) {
-    if (err) {
-      return next(err); // will generate a 500 error
-    }
-    // Generate a JSON response reflecting authentication status
-    if (! user) {
-      return res.send({ success : false, message : 'authentication failed' });
-    }
-    return res.send({ success : true, message : 'authentication succeeded' });
-  })(req, res, next);
-});
+// router.post('/login', function(req, res, next) {
+//   passport.authenticate('ldapauth', {session: false}, function(err, user, info) {
+//     if (err) {
+//       return next(err); // will generate a 500 error
+//     }
+//     // Generate a JSON response reflecting authentication status
+//     if (! user) {
+//       return res.send({ success : false, message : 'authentication failed' });
+//     }
+//     return res.send({ success : true, message : 'authentication succeeded' });
+//   })(req, res, next);
+// });
 
 
 

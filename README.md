@@ -46,8 +46,14 @@ body {
 # Starting Up
 node ./bin/www
 
+In the bin/www file you'll see the configuration for getting the https server configured. 
+
 # Authentication
-We've installed 
+We've installed passport-ldapauth and some dependencies THe secret here was setting the bindDN to '' and then querying the ldap server. We run this all via SSL, so that entailed setting up ldap.conf to point to our LDAP and issuing a valid InCommon cert for my development workstation. 
+
+So the basics are that the login form posts our username and password. The passport-ldapauth strategy does a passport.authenticate call. If the we don't fail with a 401 unauthorized error, we are authenticated via the LDAP bind process for the users uid that was passed in.
+
+THere's the differences in connection type between HTTP and LDAP to be aware of as well as the nomenclature of bind and authenticate; LDAP uses different definitions for these terms that you have to learn.
 
 
 

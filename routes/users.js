@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var session = require('express-session'); // called by app.use(session()) and stores auth vars
 
 var passport = require('passport');
 var LdapStrategy = require('passport-ldapauth');
@@ -23,7 +24,6 @@ passport.use(new LdapStrategy(OPTS));
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
-  console.log(req.user);
 });
 
 /* users/register */
@@ -63,16 +63,25 @@ router.get('/login', function(req, res, next) {
 
 
 // This works as a CruzID Blue auth block
+// The req.user object contains all the values returned from the LDAP bind
+// req.user.uid is peterm, etc.
+// This needs an isAuthenticated function type of function
 router.post('/login', passport.authenticate('ldapauth', {session: false}), 
 	function(req, res) {
     //res.send({status: 'ok'});
+    //req.user.authenticated = TRUE;
 		console.log('Authentication Successful');
-    console.log(req.user.uid + req.user.cn);
+    console.log(req.user);
 		req.flash('success', 'You are logged in');
 		res.redirect('/');
 
 	});
 
+router.get('/logout', function(req, res) {
+  req.logout;
+  req.flash('success', 'You have logged out');
+  res.redirect('/users/login');
+});
 
 
 module.exports = router;

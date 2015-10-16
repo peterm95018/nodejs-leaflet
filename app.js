@@ -45,10 +45,15 @@ app.use(session({
   resave: true
 }));
 
+
+
 // Passport
 app.use(passport.initialize());
 app.use(passport.session());
 
+
+
+// Validator
 app.use(expressValidator({
   errorFormatter: function(param, msg, value) {
       var namespace = param.split('.')
@@ -67,13 +72,23 @@ app.use(expressValidator({
 }));
 
 app.use(flash());
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   res.locals.messages = require('express-messages')(req, res);
   next();
 });
 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+// make the user object available in all routes and views. Note the /* signature
+// app.get('/*', function(req, res, next) {
+//   res.locals.user = req.user || null;
+//   if(typeof req.cookies['connect.sid'] !== 'undefined') {
+//     console.log(req.cookies['connect.sid']);
+//   }
+//   next();
+// });
 
 app.use('/', routes);
 app.use('/users', users);

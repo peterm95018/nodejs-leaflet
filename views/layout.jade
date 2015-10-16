@@ -22,12 +22,13 @@ html
 					ul.nav.navbar-nav
 						li(class=(title == 'Maps' ? 'active' : ''))
 							a(href='/') Maps
-							if !user
+							
 							li(class=(title == 'Register' ? 'active' : ''))
 								a(href='/users/register') Register
 							li(class=(title == 'Login' ? 'active' : ''))
 								a(href='/users/login') Log In
 					ul.nav.navbar-nav.navbar-right
+						
 						li
 							a(href='/users/logout') Logout
 		.container-fluid

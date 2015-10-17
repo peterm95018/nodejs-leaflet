@@ -62,7 +62,7 @@ router.get('/register', function(req, res, next) {
   res.render('register', {
   	'title': 'Register'
   });
-console.log('req.session.me: ' + req.session.user.givenName + ' ' + req.session.user.ucscPersonSn);
+//console.log('req.session.me: ' + req.session.user.givenName + ' ' + req.session.user.ucscPersonSn);
 });
 
 
@@ -73,6 +73,23 @@ router.get('/login', function(req, res, next) {
   });
 });
 
+// requireLogin can then be added to other routes that need protection
+function requireLogin (req, res, next) {
+  if (!req.session.user) {
+    res.redirect('/users/login');
+  } else {
+    next();
+  }
+};
+
+/* profile route */
+/* requires a valid login to get to the page */
+router.get('/profile', requireLogin, function(req, res, next) {
+  res.render('profile', {
+    'title': 'Profile'
+  });
+
+});
 
 
 // This works as a CruzID Blue auth block, but needs further work and testing. session
@@ -92,6 +109,7 @@ router.post('/login', function(req, res, next) {
     req.flash('success', 'You are logged in');
     //console.log('user: %j', user);
     req.session.user = user;
+    res.locals.user = user;
     res.redirect('/')
     return user;
     //return res.send({ success : true, message : 'authentication succeeded'}, res.redirect('/'));
@@ -122,20 +140,11 @@ router.post('/login', function(req, res, next) {
 router.get('/logout', function(req, res) {
   req.logout;
   req.flash('success', 'You have logged out');
+    req.session.destroy();
   res.redirect('/users/login');
 });
 
-// test this via scotch.io
-// route middleware to make sure a user is logged in
-function isLoggedIn(req, res, next) {
 
-    // if user is authenticated in the session, carry on 
-    if (req.isAuthenticated())
-        return next();
-
-    // if they aren't redirect them to the home page
-    res.redirect('/users/login');
-}
 
 
 module.exports = router;

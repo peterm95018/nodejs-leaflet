@@ -83,6 +83,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // make the user object available in all routes and views. Note the /* signature
 // not sure this is necessary since req.session.user is already available on all routes
+
 app.get('/*', function(req, res, next) {
   //console.log('req.session.user: %j', req.session.user);
   res.locals.user = req.session.user || null;

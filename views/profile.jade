@@ -4,4 +4,12 @@ block content
 	h1 Profile
 	p This is a protected page and should only be seen by authenticated users.
 	p #{locals.user.givenName}
+
+	h3 LDAP Output
+
+	each value, index in locals.user
+		div
+			p= index + ": " + value
+
+
 	

@@ -1,7 +1,7 @@
 # nodejs-leaflet
 A simple ExpressJS app that includes a Leaflet example. This is a modified lesson from a Udemy class I was taking. It uses the jade templating language and pulls in Bootstrap and Mapbox libraries.
 
-To make it more useful, I changed the local authentication to use our LDAP. 
+In October 2015, to make it more useful, I changed the local authentication to use our LDAP and CruzID Blue process. Upon successful authentication, we drop the authenticated user on a "profile" page that outputs their LDAP object info.
 
 The mapbox library and token is for a version of my styled mobile map. Displays the standard map using OSM data that is themed for UC Santa Cruz. More about the Mapbox theming is found at http://petermcmillan.com/
 

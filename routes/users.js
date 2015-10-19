@@ -35,8 +35,7 @@ callback(null, OPTS);
 };
 
 passport.use(new LdapStrategy(getLDAPConfiguration, function(user, done) {
-
-return done(null, user);
+  return done(null, user);
 }));
 
 
@@ -102,10 +101,12 @@ router.post('/login', function(req, res, next) {
     }
     // Generate a JSON response reflecting authentication status
     if (! user) {
-      return res.send({ success : false, message : 'authentication failed'}, res.redirect('/users/login'));
+      req.flash('success', 'Authentication Failed');
+      res.redirect('/users/login');
+      return
+      //return res.send({ success : false, message : 'authentication failed'}, res.redirect('/users/login'));
     }
     // we're authenticated via LDAP
-
     req.flash('success', 'You are logged in');
     //console.log('user: %j', user);
     req.session.user = user;

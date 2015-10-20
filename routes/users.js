@@ -107,14 +107,13 @@ router.post('/login', function(req, res, next) {
       //return res.send({ success : false, message : 'authentication failed'}, res.redirect('/users/login'));
     }
     // we're authenticated via LDAP
-    req.flash('success', 'You are logged in');
+  
     //console.log('user: %j', user);
     req.session.user = user;
     res.locals.user = user;
+    req.flash('success', 'You are logged in ' + req.session.user.uid);
     res.redirect('/')
     return user;
-    //return res.send({ success : true, message : 'authentication succeeded'}, res.redirect('/'));
-
   })(req, res, next);
 
 });
@@ -139,10 +138,11 @@ router.post('/login', function(req, res, next) {
 
 // logout the user
 router.get('/logout', function(req, res) {
-  req.logout;
-  req.flash('success', 'You have logged out');
-    req.session.destroy();
-  res.redirect('/users/login');
+  var name = req.session.user.uid;
+  console.log('logging out ' + req.session.user.uid);
+  req.logout();
+  req.flash('success', 'You have been successfully logged out ' + name);
+  res.redirect('/');
 });
 
 

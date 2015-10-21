@@ -57,6 +57,62 @@ So the basics are that the login form posts our username and password. The passp
 
 THere's the differences in connection type between HTTP and LDAP to be aware of as well as the nomenclature of bind and authenticate; LDAP uses different definitions for these terms that you have to learn.
 
+# User Object LDAP Data
+```
+{  
+   "dn":"uid=peterm,ou=People,dc=crm,dc=ucsc,dc=edu",
+   "controls":[  
 
+   ],
+   "givenName":"Peter",
+   "homeDirectory":"/afs/cats.ucsc.edu/users/y/peterm",
+   "loginShell":"/bin/bash",
+   "mail":"peterm@ucsc.edu",
+   "sambaSID":"S-1-5-21-XXXXXXXXXX-XXXXXXXXXX-XXXXXXXXXX",
+   "ucscPersonGuID":"G000108642",
+   "uid":"peterm",
+   "uidNumber":"13403",
+   "ucscPersonGivenName":"Peter",
+   "gidNumber":"100000",
+   "sn":"McMillan",
+   "ucscPersonSn":"McMillan",
+   "ucscPersonMail":"peterm@ucsc.edu",
+   "ucscPersonPubDivision":[  
+      "Information Technology Services",
+      "Business & Administrative Services",
+      "Chancellor's Office/EVC"
+   ],
+   "ucscPersonPubPhoneticGivenName":"Peter",
+   "ucscPersonPubOfficeHours":"M-F 8-5",
+   "ucscPersonPubPhoneticSn":"McMillan",
+   "ucscPersonPubMailStop":"Chancellor's Office",
+   "cn":[  
+      "Peter McMillan",
+      "Peter S Mc Millan"
+   ],
+   "ucscPersonPubDepartmentNumber":"Information Technology Services",
+   "ucscPersonPubTitle":[  
+      "Director, Client Relationship Management",
+      "Divisional Liaison for all administrative divisions"
+   ],
+   "ucscPersonPubRoomNumber":"273 Kerr Hall",
+   "ucscPersonPubStreet":"273 Kerr Hall",
+   "ucscPersonPubL":"Santa Cruz",
+   "ucscPersonPubSt":"CA",
+   "ucscPersonPubPostalCode":"95064",
+   "ucscPersonTelephoneNumber":"831-459-5830",
+   "objectClass":[  
+      "ucscPerson",
+      "top",
+      "eduPerson",
+      "inetOrgPerson",
+      "sambaSamAccount",
+      "posixAccount",
+      "organizationalPerson",
+      "person",
+      "ucscMain"
+   ]
+}
+```
 
 

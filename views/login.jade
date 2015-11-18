@@ -3,13 +3,15 @@ extends layout
 block content
 	if message && message.length
 		strong #{message}
-	h1 Login
-	p Please login below
+
+	p(class='spacer')
 	form(method='post', action='/users/login', enctype='multipart/form-data')
 		.form-group
-			label Username
-			input.form-control(name='username', type='textfield', placeholder='enter Username')
+			img(src="/images/cruzid-blue-large.png", alt="CruzID Blue Logo")
 		.form-group
-			label Password
-			input.form-control(name='password', type='password', placeholder='enter Password')
-		input.btn.btn-default(name='submit', type='submit', value='Login')
+			label CruzID
+			input.form-control(name='username', type='textfield', placeholder='Please enter your CruzID')
+		.form-group
+			label CruzID Blue Password
+			input.form-control(name='password', type='password', placeholder='Please enter your CruzID Blue password')
+		input.btn.btn-default(name='submit', class='btn btn-primary' type='submit', value='Login')

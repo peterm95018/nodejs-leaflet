@@ -7,6 +7,14 @@ The mapbox library and token is for a version of my styled mobile map. Displays 
 
 The real secret to getting 100% height and width via Bootstrap 3 was to restructure the divs and classes a little and add some specific CSS overwrites to handle default padding and margins found in Bootstrap 3.
 
+Start the app with ```npm start``` at the command line.
+
+Here's a screen shot of a CruzID Blue login that authenticates against the ADC CruzID Blue LDAP server.
+
+<img src="cruzid-blue-screenshot.png" alt="CruzID Blue mock up login page">
+
+Here's a shot of the apps main page.
+
 <img src="expressjs-leaflet.png" alt="ExpressJS Leaflet screen shot">
 
 

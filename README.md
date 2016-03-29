@@ -3,9 +3,13 @@ A simple ExpressJS app that includes a Leaflet example. This is a modified lesso
 
 The mapbox library and token is for a version of my styled mobile map. Displays the standard map using OSM data that is themed for UC Santa Cruz. More about the Mapbox theming is found at http://petermcmillan.com/
 
+# CruzID Blue Authentication
+Using the LDAP blue server managed by SoE, this app uses PassportJS to authenticate against the LDAP.
+
+# Full Sized Map
 The real secret to getting 100% height and width via Bootstrap 3 was to restructure the divs and classes a little and add some specific CSS overwrites to handle default padding and margins found in Bootstrap 3.
 
-Start the app with ```npm start``` from the command line.
+Start the app with ```npm start``` from the command line to intall and launch the app.
 
 <img src="expressjs-leaflet.png" alt="ExpressJS Leaflet screen shot">
 

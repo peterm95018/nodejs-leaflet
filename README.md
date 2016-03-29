@@ -54,7 +54,7 @@ body {
 ```
 
 # Starting Up
-node ./bin/www
+```node ./bin/www```
 
 In the bin/www file you'll see the configuration for getting the https server configured. 
 

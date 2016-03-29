@@ -6,6 +6,8 @@ The mapbox library and token is for a version of my styled mobile map. Displays 
 # CruzID Blue Authentication
 Using the LDAP blue server managed by SoE, this app uses PassportJS to authenticate against the LDAP.
 
+See the ldapauth branch here to get a lot more details.
+
 # Full Sized Map
 The real secret to getting 100% height and width via Bootstrap 3 was to restructure the divs and classes a little and add some specific CSS overwrites to handle default padding and margins found in Bootstrap 3.
 

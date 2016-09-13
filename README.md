@@ -1,13 +1,17 @@
-# nodejs-leaflet
-A simple ExpressJS app that includes a Leaflet example. This is a modified lesson from a Udemy class I was taking. It uses the jade templating language and pulls in Bootstrap and Mapbox libraries.
+# nodejs-leaflet ldapauth branch
 
 In October 2015, to make it more useful, I changed the local authentication to use our LDAP and CruzID Blue process. Upon successful authentication, we drop the authenticated user on a "profile" page that outputs their LDAP object info.
+
+More background is in the README of the master branch of this project.
+
+# Requirements
+You'll need SSL setup on your dev environment. You'll find in bin/www that we're convigured to use a cert and key on my workstation. Edit as necessary for you're local config.
 
 The mapbox library and token is for a version of my styled mobile map. Displays the standard map using OSM data that is themed for UC Santa Cruz. More about the Mapbox theming is found at http://petermcmillan.com/
 
 The real secret to getting 100% height and width via Bootstrap 3 was to restructure the divs and classes a little and add some specific CSS overwrites to handle default padding and margins found in Bootstrap 3.
 
-Start the app with ```npm start``` at the command line.
+Start the app with ```npm start``` at the command line. Find your page at ```https://localhost:3000```. Note that we're not doing any redirection of http to https; that's for another more fully fleshed out project.
 
 Here's a screen shot of a CruzID Blue login that authenticates against the ADC CruzID Blue LDAP server.
 
@@ -54,7 +58,7 @@ body {
 ```
 
 # Starting Up
-node ./bin/www
+```node ./bin/www```
 
 In the bin/www file you'll see the configuration for getting the https server configured. 
 

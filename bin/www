@@ -31,8 +31,13 @@ app.set('port', port);
 // This only works with cert files not intermediate cert files.
 // Files must be owned by 'peterm' for the fs to read
 
-var psmKey = fs.readFileSync('/Users/peterm/Desktop/peterm-laptop-SSL/peterm-laptop.key');
-var psmCert = fs.readFileSync('/Users/peterm/Desktop/peterm-laptop-SSL/peterm-laptop.crt');
+// LAPTOP Path 
+// var psmKey = fs.readFileSync('/Users/peterm/Desktop/peterm-laptop-SSL/peterm-laptop.key');
+// var psmCert = fs.readFileSync('/Users/peterm/Desktop/peterm-laptop-SSL/peterm-laptop.crt');
+
+// Desktop path - there can be only one!
+var psmKey = fs.readFileSync('/Users/peterm/Desktop/peterm.ucsc.edu-SSL/peterm.server.key');
+var psmCert = fs.readFileSync('/Users/peterm/Desktop/peterm.ucsc.edu-SSL/peterm_ucsc_edu_cert.cer');
 
 var options = {
   key: psmKey,

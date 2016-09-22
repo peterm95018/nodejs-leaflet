@@ -5,13 +5,35 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('express-leaflet:server');
+var debug = require('debug')('nodeauth:server');
 var http = require('http');
 
-/* psm added these two */
+/**
+ * Get dependencies for SSL
+ */
+
 var fs = require('fs');
 var https = require('https');
 
+/**
+ * Create desktop and laptop certs and keys for testing
+ */
+
+// LAPTOP Path 
+var psmKey = fs.readFileSync('/Users/peterm/Desktop/peterm-laptop-SSL/peterm-laptop.key');
+var psmCert = fs.readFileSync('/Users/peterm/Desktop/peterm-laptop-SSL/peterm-laptop.crt');
+
+// Desktop path - there can be only one!
+// var psmKey = fs.readFileSync('/Users/peterm/Desktop/peterm.ucsc.edu-SSL/peterm.server.key');
+// var psmCert = fs.readFileSync('/Users/peterm/Desktop/peterm.ucsc.edu-SSL/peterm_ucsc_edu_cert.cer');
+
+/**
+ * Create SSL credentials
+ */
+ var options = {
+  key: psmKey,
+  cert: psmCert
+};
 
 /**
  * Get port from environment and store in Express.
@@ -21,32 +43,10 @@ var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
- * Create HTTP server.
+ * Create HTTP or HTTPS server.
  */
 
-/* psm mods */
-// var psmKey = fs.readFileSync('certs/peterm-key.pem');
-// var psmCert = fs.readFileSync('certs/ca.crt');
-
-// This only works with cert files not intermediate cert files.
-// Files must be owned by 'peterm' for the fs to read
-
-// LAPTOP Path 
-// var psmKey = fs.readFileSync('/Users/peterm/Desktop/peterm-laptop-SSL/peterm-laptop.key');
-// var psmCert = fs.readFileSync('/Users/peterm/Desktop/peterm-laptop-SSL/peterm-laptop.crt');
-
-// Desktop path - there can be only one!
-var psmKey = fs.readFileSync('/Users/peterm/Desktop/peterm.ucsc.edu-SSL/peterm.server.key');
-var psmCert = fs.readFileSync('/Users/peterm/Desktop/peterm.ucsc.edu-SSL/peterm_ucsc_edu_cert.cer');
-
-var options = {
-  key: psmKey,
-  cert: psmCert
-}
-
-
 //var server = http.createServer(app);
-/* psm mod */
 var server = https.createServer(options, app);
 
 /**

@@ -1,151 +1,187 @@
 var express = require('express');
 var router = express.Router();
-var session = require('express-session'); // called by app.use(session()) and stores auth vars
-
+var multer = require('multer');
+var upload = multer({dest: './uploads'});
 var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 var LdapStrategy = require('passport-ldapauth');
 
-// var OPTS = {
-//   server: {
-//     url: 'ldaps://ldap-99.soe.ucsc.edu:636',
-//     bindDn: '',
-//     searchBase: 'ou=People,dc=crm,dc=ucsc,dc=edu',
-//     searchFilter: '(uid={{username}})',
-//     bindCredentials: '{{password}}'
-//   }
-// }
-// 
-// passport.use(new LdapStrategy(OPTS));
+var User = require('../models/user');
 
-
+/** 
+ * For our CRM LDAP auth, we don't bindDN
+ * Note: we use {{}} for username, but not password
+ */
 var getLDAPConfiguration = function(req, callback) {
-	//fetching things from database or whatever
-	process.nextTick(function() {
-		var OPTS = {
-  server: {
-    url: 'ldaps://ldap-99.soe.ucsc.edu:636',
-    bindDn: '',
-    searchBase: 'ou=People,dc=crm,dc=ucsc,dc=edu',
-    searchFilter: '(uid={{username}})',
-    bindCredentials: '{{password}}'
-  }
-};
-callback(null, OPTS);
-});
+  // Fetching things from database or whatever
+  process.nextTick(function() {
+    var opts = {
+      server: {
+        url: 'ldaps://ldap-99.soe.ucsc.edu:636',
+        searchBase: 'ou=People,dc=crm,dc=ucsc,dc=edu',
+        searchFilter: "(uid={{username}})",
+        bindCredentials: "password",
+      }
+    };
+	
+    callback(null, opts);
+  });
 };
 
 passport.use(new LdapStrategy(getLDAPConfiguration, function(user, done) {
-  return done(null, user);
-}));
-
+    return done(null, user);
+  }
+));
 
 // used to serialize the user object for this session
-    passport.serializeUser(function(user, done) {
-        done(null, user.uidNumber);
-    });
+passport.serializeUser(function(user, done) {  
+    return done(null, user);
+});
 
-    // used to deserialize the user
-    passport.deserializeUser(function(id, done) {
-        User.findById(id, function(err, user) {
-            done(err, user);
-        });
-    });
-    
+// used to deserialize the user
+passport.deserializeUser(function(user, done) {
+    var username = user['uid'];
+	User.getUserByUsername(username, function(err, user, req, res) {
+		if(err) done(err);
+		if(!user) {
+			return done(null, false, {message: 'Unknown User'});
+		} else {
+			// do other application logic and set app vars
+			successFlash: {'Successfly Logged In'}
+		}
+		return done(err, user);
+	});
+});
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-
+  res.send('respond with a resource');
 });
 
-/* users/register */
+/* Get Register page */
 router.get('/register', function(req, res, next) {
-  res.render('register', {
-  	'title': 'Register'
-  });
-//console.log('req.session.me: ' + req.session.user.givenName + ' ' + req.session.user.ucscPersonSn);
+  res.render('register',{title:'Register'});
 });
-
-
-/* users/login */
+/* Get login page */
 router.get('/login', function(req, res, next) {
-  res.render('login', {
-  	'title': 'Login'
+  res.render('login', {title:'Login'});
+});
+
+/* router POST from passport-ldapauth page*/
+router.post('/login',
+  passport.authenticate('ldapauth', { 
+  	session: true, 
+  	failureFlash: true,
+  	failureRedirect:'/users/login', 
+  	failureFlash: 'Invalid username or password'}), 
+  function(req, res) {
+  	/* logged in as username */
+   req.flash('success', 'You are now logged in ' +req.session.passport.user.uid);
+	/* redirect to secured page */
+   res.redirect('/');
+});
+
+
+/** 
+ * Below is code that can be used for a passport local
+ * strategy
+ */
+
+
+/* known good Udemy working code down to line 89
+router.post('/login',
+  passport.authenticate('local',{failureRedirect:'/users/login', failureFlash: 'Invalid username or password'}),
+  function(req, res) {
+   req.flash('success', 'You are now logged in');
+   res.redirect('/');
+});
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.getUserById(id, function(err, user) {
+    done(err, user);
   });
 });
 
-// requireLogin can then be added to other routes that need protection
-function requireLogin (req, res, next) {
-  if (!req.session.user) {
-    res.redirect('/users/login');
+passport.use(new LocalStrategy(function(username, password, done){
+  User.getUserByUsername(username, function(err, user){
+    if(err) throw err;
+    if(!user){
+      return done(null, false, {message: 'Unknown User'});
+    }
+
+    User.comparePassword(password, user.password, function(err, isMatch){
+      if(err) return done(err);
+      if(isMatch){
+        return done(null, user);
+      } else {
+        return done(null, false, {message:'Invalid Password'});
+      }
+    });
+  });
+}));
+*/
+
+
+
+router.post('/register', upload.single('profileimage') ,function(req, res, next) {
+  var name = req.body.name;
+  var email = req.body.email;
+  var username = req.body.username;
+  var password = req.body.password;
+  var password2 = req.body.password2;
+
+  if(req.file){
+  	console.log('Uploading File...');
+  	var profileimage = req.file.filename;
   } else {
-    next();
+  	console.log('No File Uploaded...');
+  	var profileimage = 'noimage.jpg';
   }
-};
 
-/* profile route */
-/* requires a valid login to get to the page */
-router.get('/profile', requireLogin, function(req, res, next) {
-  res.render('profile', {
-    'title': 'Profile'
-  });
+  // Form Validator
+  req.checkBody('name','Name field is required').notEmpty();
+  req.checkBody('email','Email field is required').notEmpty();
+  req.checkBody('email','Email is not valid').isEmail();
+  req.checkBody('username','Username field is required').notEmpty();
+  req.checkBody('password','Password field is required').notEmpty();
+  req.checkBody('password2','Passwords do not match').equals(req.body.password);
 
+  // Check Errors
+  var errors = req.validationErrors();
+
+  if(errors){
+  	res.render('register', {
+  		errors: errors
+  	});
+  } else{
+  	var newUser = new User({
+      name: name,
+      email: email,
+      username: username,
+      password: password,
+      profileimage: profileimage
+    });
+
+    User.createUser(newUser, function(err, user){
+      if(err) throw err;
+      console.log(user);
+    });
+
+    req.flash('success', 'You are now registered and can login');
+
+    res.location('/');
+    res.redirect('/');
+  }
 });
 
-
-// This works as a CruzID Blue auth block, but needs further work and testing. session
-// not working
-// from http://code.runnable.com/VOd1LNZyrqxYnQES/nodejs-passport-ldapauth-express-test-for-node-js-and-hello-world
-router.post('/login', function(req, res, next) {
-  passport.authenticate('ldapauth', {session: true}, function(err, user, info) {
-    if (err) {
-      return next(err); // will generate a 500 error
-    }
-    // Generate a JSON response reflecting authentication status
-    if (! user) {
-      req.flash('success', 'Authentication Failed');
-      res.redirect('/users/login');
-      return
-      //return res.send({ success : false, message : 'authentication failed'}, res.redirect('/users/login'));
-    }
-    // we're authenticated via LDAP
-  
-    //console.log('user: %j', user);
-    req.session.user = user;
-    res.locals.user = user;
-    req.flash('success', 'You are logged in ' + req.session.user.uid);
-    res.redirect('/')
-    return user;
-  })(req, res, next);
-
-});
-
-
-
-// This works as a CruzID Blue auth block
-// The req.user object contains all the values returned from the LDAP bind
-// req.user.uid is peterm, etc.
-// This needs an isAuthenticated function type of function
-// router.post('/login', passport.authenticate('ldapauth', {session: false}), 
-// 	function(req, res) {
-//     // if we got here we've successfully logged in
-// 		console.log('Authentication Successful');
-//     //console.log(req.user);
-// 		req.flash('success', 'You are logged in');
-// 		res.redirect('/');
-// 	});
-// 	
-	
-
-
-// logout the user
-router.get('/logout', function(req, res) {
-  var name = req.session.user.uid;
-  console.log('logging out ' + req.session.user.uid);
+router.get('/logout', function(req, res){
   req.logout();
-  req.flash('success', 'You have been successfully logged out ' + name);
-  res.redirect('/');
+  req.flash('success', 'You are now logged out');
+  res.redirect('/users/login');
 });
-
-
-
 
 module.exports = router;

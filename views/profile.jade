@@ -1,14 +1,12 @@
 extends layout
 
 block content
-	h1 Profile
-	p This is a protected page and should only be seen by authenticated users.
-	p #{locals.user.givenName}
+    h1 Profile
+    p This is a protected page and should only be seen by authenticated users.
+    p #{locals.user.givenName}
 
-	h3 LDAP User Object Output
+    h3 LDAP User Object Output
 
-	each value, index in locals.user
-		p= index + ": " + value
+    each value, index in locals.user
+        p= index + ": " + value
 
-
-	

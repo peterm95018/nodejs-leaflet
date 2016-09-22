@@ -84,11 +84,17 @@ Fourth, I had to spend some time messing with the PassportJS LDAP strategy. We d
 
 
 # Authentication
-We've installed passport-ldapauth and some dependencies THe secret here was setting the bindDN to '' and then querying the ldap server. We run this all via SSL, so that entailed setting up ldap.conf to point to our LDAP and issuing a valid InCommon cert for my development workstation. 
+The secret here was setting the bindDN to '' and then querying the ldap server. We run this all via SSL, so that entailed setting up ldap.conf to point to our CRM LDAP and issuing a valid InCommon cert for my development workstation. 
 
 So the basics are that the login form posts our username and password. The passport-ldapauth strategy does a passport.authenticate call. If the we don't fail with a 401 unauthorized error, we are authenticated via the LDAP bind process for the users uid that was passed in.
 
-THere's the differences in connection type between HTTP and LDAP to be aware of as well as the nomenclature of bind and authenticate; LDAP uses different definitions for these terms that you have to learn.
+There's the differences in connection type between HTTP and LDAP to be aware of as well as the nomenclature of bind and authenticate; LDAP uses different definitions for these terms that you have to learn.
+
+# References
+I found these links were helpful in getting a better understanding of PassporJS flow.
+http://toon.io/understanding-passportjs-authentication-flow/
+
+This article, http://www.ibm.com/developerworks/library/se-use-ldap-authentication-authorization-node.js-bluemix-application/index.html is good if we wanted to hand code the interaction for the LDAP bind and password check. It also has code on sessions management.
 
 # User Object LDAP Data
 ```

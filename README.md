@@ -71,6 +71,18 @@ Click the Register link. This presents a set of fields that most apps would coll
 
 Once registered, you can login. This will attempt to use the LDAP PassportJS strategy to connect to (CRM LDAP for testing).
 
+# Dependencies 
+In rebuilding this prototype, I came across a few issues that we need to note here.
+
+First, you need to generate a SSL key/cert pair to put the app into SSL.
+
+Second, you can't authenticate against CRM LDAP from Eduroam (or at least from https://localhost:3000/login - might need vetting). I had consistent success via a VPN based IP address.
+
+Third, you need to have a local DB. Why? Because the basic code comes from a Udemy Eduonix nodejs class. The chapter was on local auth which I then adapted for LDAP Auth.
+
+Fourth, I had to spend some time messing with the PassportJS LDAP strategy. We do not send bindDN since we want to authenticate the provided username. passport-ldapauth uses examples that call for the use of '{{}}' around both password and username fields. I finally got this working by removing the braces around password and using them around username. weird.
+
+
 # Authentication
 We've installed passport-ldapauth and some dependencies THe secret here was setting the bindDN to '' and then querying the ldap server. We run this all via SSL, so that entailed setting up ldap.conf to point to our LDAP and issuing a valid InCommon cert for my development workstation. 
 

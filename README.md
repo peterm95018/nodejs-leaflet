@@ -72,7 +72,7 @@ Run ```sudo mongod --dbpath=data/db``` to kick off the Mongo daemon.
 
 Click the Register link. This presents a set of fields that most apps would collect for a user profile. You'll be writing the username and password to a local db which would be useful if you were doing a local authentication strategy.
 
-Once registered, you can login. This will attempt to use the LDAP PassportJS strategy to connect to (CRM LDAP for testing).
+Once registered, you can login. This will attempt to use the LDAP PassportJS strategy to connect to (CRM LDAP for testing). Upon a successful login, you should see a map of the campus, otherwise you are redirected back to the login page.
 
 # Dependencies 
 In rebuilding this prototype, I came across a few issues that we need to note here.

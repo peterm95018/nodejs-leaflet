@@ -1,5 +1,8 @@
 # nodejs-leaflet ldapauth branch
 
+In September 2016, I went back to this project. It had become nonfunctional due to my use of some earlier versions of libraries. That is resolved in this branch.
+
+
 In October 2015, to make it more useful, I changed the local authentication to use our LDAP and CruzID Blue process. Upon successful authentication, we drop the authenticated user on a "profile" page that outputs their LDAP object info.
 
 More background is in the README of the master branch of this project.

@@ -13,6 +13,13 @@ Also created InCommon cert for the site to run it all under SSL. Made some vhost
 
 Installed pm2 on the VM in case we want to run clustered app or multiple apps as we test Shibb'ing nodejs apps.
 
+Here's the difference in package.json files:
+```
+    "ldapauth-fork": "^2.5.3",
+    "ldapjs": "mcavage/node-ldapjs",
+    "ldapjs-hotfix": "^0.7.3",
+```
+
 # Requirements
 You'll need SSL setup on your dev environment. You'll find in bin/www that we're convigured to use a cert and key on my workstation. Edit as necessary for you're local config.
 

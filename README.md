@@ -2,10 +2,14 @@
 
 In September 2016, I went back to this project. It had become nonfunctional due to my use of some earlier versions of libraries. That is resolved in this branch.
 
-
 In October 2015, to make it more useful, I changed the local authentication to use our LDAP and CruzID Blue process. Upon successful authentication, we drop the authenticated user on a "profile" page that outputs their LDAP object info.
 
 More background is in the README of the master branch of this project.
+
+# Server Testing Notes
+Had some issues in checking out the code and deploying on SmartOS VM. Had the known issue seen in this issue: https://github.com/vesse/node-ldapauth-fork/issues/22 Updating package.json removing node_modules and reinstalling got it sorted.
+
+Also created InCommon cert for the site to run it all under SSL. Made some vhost changes in both vhosts and ssl config files.
 
 # Requirements
 You'll need SSL setup on your dev environment. You'll find in bin/www that we're convigured to use a cert and key on my workstation. Edit as necessary for you're local config.

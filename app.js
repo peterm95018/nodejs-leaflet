@@ -29,14 +29,7 @@ app.set('view engine', 'jade');
 
 
 // handle file uploads
-var multer = require('multer');
-var upload = multer({ 
-  dest: './uploads'
-  });
-
-// app.use(multer({
-//   dest: './uploads'
-// }));
+var upload = multer({ dest: './uploads' });
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));

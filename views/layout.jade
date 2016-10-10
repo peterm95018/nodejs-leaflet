@@ -24,8 +24,10 @@ html(lang='en')
             if !user
              li(class=(title == 'Register' ? 'active' : ''))
                a(href='/users/register') Register
-             li(class=(title == 'Login' ? 'active' : ''))
-               a(href='/users/login') Login
+             li(class=(title == 'Blue Login' ? 'active' : ''))
+               a(href='/users/login') CruzID Blue Login
+             li(class=(title == 'Gold Login' ? 'active' : ''))
+               a(href='/users/gold-login') CruzID Gold Login
           ul.nav.navbar-nav.navbar-right
            if user
             li

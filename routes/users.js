@@ -62,12 +62,18 @@ router.get('/', function(req, res, next) {
 router.get('/register', function(req, res, next) {
   res.render('register',{title:'Register'});
 });
-/* Get login page */
+
+/* Get Blue login page */
 router.get('/login', function(req, res, next) {
   res.render('login', {title:'Login'});
 });
 
-/* router POST from passport-ldapauth page*/
+/* Get Gold login page */
+router.get('/gold-login', function(req, res, next) {
+  res.render('login', {title:'Gold Login'});
+});
+
+/* router POST from passport-ldapauth page */
 router.post('/login',
   passport.authenticate('ldapauth', { 
   	session: true, 

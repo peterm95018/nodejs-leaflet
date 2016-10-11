@@ -21,7 +21,6 @@
     "mongoose": "*",
     "morgan": "~1.6.1",
     "multer": "*",
-    "nodemon": "^1.11.0",
     "passport": "*",
     "passport-http": "*",
     "passport-ldapauth": "^0.6.0",

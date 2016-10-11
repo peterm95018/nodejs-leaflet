@@ -65,13 +65,14 @@ router.get('/register', function(req, res, next) {
 
 /* Get Blue login page */
 router.get('/login', function(req, res, next) {
-  res.render('login', {title:'Login'});
+  res.render('login', {title:'CruzID Blue Login'});
 });
 
 /* Get Gold login page */
 router.get('/gold-login', function(req, res, next) {
-  res.render('login', {title:'Gold Login'});
+  res.render('gold-login', {title:'CruzID Gold Login'});
 });
+
 
 /* router POST from passport-ldapauth page */
 router.post('/login',

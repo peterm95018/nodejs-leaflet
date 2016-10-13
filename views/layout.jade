@@ -21,6 +21,8 @@ html(lang='en')
             if user
              li(class=(title == 'Members' ? 'active' : ''))
                a(href='/') Members
+             li(class=(title == 'Profile' ? 'active' : ''))
+               a(href='/profile') Profile
             if !user
              li(class=(title == 'Register' ? 'active' : ''))
                a(href='/users/register') Register

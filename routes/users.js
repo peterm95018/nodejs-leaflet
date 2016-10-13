@@ -5,8 +5,32 @@ var upload = multer({dest: './uploads'});
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var LdapStrategy = require('passport-ldapauth');
+var SamlStragegy = require('passport-saml').Strategy;
 
 var User = require('../models/user');
+
+
+/**
+ * Define configuration for Passport SAML
+ */
+
+passport.use(new SamlStragegy({
+  path: 'gold-login/callback',
+  entryPoint: 'https://login.ucsc.edu/idp/shibboleth',
+  issuer: 'https://nodejs-crm.ucsc.edu/shibboleth'
+  },
+  function(profile, done) {
+    findByEmail(profile.email, function(err, user) {
+      if(err) {
+        return done(err);
+      }
+      return done(null, user);
+    });
+  })
+);
+
+
+
 
 /** 
  * For our CRM LDAP auth, we don't bindDN
@@ -68,12 +92,6 @@ router.get('/login', function(req, res, next) {
   res.render('login', {title:'CruzID Blue Login'});
 });
 
-/* Get Gold login page */
-router.get('/gold-login', function(req, res, next) {
-  res.render('gold-login', {title:'CruzID Gold Login'});
-});
-
-
 /* router POST from passport-ldapauth page */
 router.post('/login',
   passport.authenticate('ldapauth', { 
@@ -87,6 +105,30 @@ router.post('/login',
 	/* redirect to secured page */
    res.redirect('/');
 });
+
+/* Get Gold login page TBD in place of redirection to IDM login page */
+router.get('/gold-login', function(req, res, next) {
+  res.render('gold-login', {title:'CruzID Gold Login'});
+});
+
+/* Post to Gold Login route */
+router.post('/gold-login/callback',
+  passport.authenticate('saml', {
+    failureRedirect: '/',
+    failureFlash: true
+  }),
+  function(req,res) {
+    res.redirect('/');
+  });
+
+router.get('/gold-login',
+  passport.authenticate('saml', {
+    failureRedirect: '/',
+    failureFlash: true
+  }),
+  function(req,res) {
+    res.redirect('/');
+  });
 
 
 /** 

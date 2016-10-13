@@ -16,6 +16,7 @@
     "express-session": "^1.13.0",
     "express-validator": "*",
     "jade": "^1.11.0",
+    "ldapjs": "mcavage/node-ldapjs",
     "ldapauth-fork": "^2.5.3",
     "mongodb": "*",
     "mongoose": "*",
